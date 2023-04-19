@@ -5,13 +5,9 @@ import keep.exceptions.CacheLoadException
 import keep.load
 import keep.loadOrNull
 import keep.save
-import kommander.BasicExpectation
 import kommander.expect
 import kommander.toBe
-import koncurrent.later.catch
-import koncurrent.later.andThen
 import koncurrent.later.test
-import koncurrent.later.then
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 

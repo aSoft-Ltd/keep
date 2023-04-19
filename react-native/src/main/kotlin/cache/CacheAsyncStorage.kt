@@ -4,8 +4,9 @@ import cache.exceptions.CacheLoadException
 import cache.exceptions.CacheMissException
 import kotlinx.serialization.KSerializer
 import koncurrent.Later
+import koncurrent.SuccessfulLater
 import koncurrent.later.asLater
-import koncurrent.later.flatten
+import koncurrent.later.andThen
 import koncurrent.later.then
 
 @Deprecated("use keep instead")
@@ -22,7 +23,8 @@ class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageC
     override fun <T> save(
         key: String, obj: T,
         serializer: KSerializer<T>
-    ): Later<out T> = storage.setItem("$namespace:$key", codec.encodeToString(serializer, obj)).asLater().then(executor) { obj }
+    ): Later<out T> =
+        storage.setItem("$namespace:$key", codec.encodeToString(serializer, obj)).asLater().then(executor) { obj }
 
     override fun <T> load(key: String, serializer: KSerializer<T>) = Later(executor) { resolve, reject ->
         storage.getItem("$namespace:$key").asLater().then {
@@ -40,11 +42,11 @@ class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageC
 
     override fun clear() = storage.clear().asLater()
 
-    override fun remove(key: String): Later<out Unit?> {
+    override fun remove(key: String): Later<Unit?> {
         val fullKey = "$namespace:$key"
-        return storage.getItem(fullKey).asLater().flatten { res ->
+        return storage.getItem(fullKey).asLater().andThen { res ->
             if (res == null) {
-                Later.resolve<Unit?>(null)
+                SuccessfulLater(null)
             } else {
                 storage.removeItem(fullKey).asLater().then { it }
             }

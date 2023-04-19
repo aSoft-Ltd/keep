@@ -1,7 +1,7 @@
 package keep
 
-import cache.exceptions.CacheLoadException
-import cache.exceptions.CacheMissException
+import keep.exceptions.CacheLoadException
+import keep.exceptions.CacheMissException
 import kotlinx.serialization.KSerializer
 import koncurrent.Later
 import koncurrent.later
