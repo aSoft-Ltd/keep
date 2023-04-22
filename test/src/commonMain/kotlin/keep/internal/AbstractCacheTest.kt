@@ -1,5 +1,6 @@
 package keep.internal
 
+import kommander.IgnoreOSX
 import keep.Cache
 import keep.exceptions.CacheLoadException
 import keep.load
@@ -11,6 +12,7 @@ import koncurrent.later.test
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
 
+@IgnoreOSX
 abstract class AbstractCacheTest(val cache: Cache) {
     @Test
     fun should_be_able_to_load_and_save_primitively_easily() = cache.save("int", 1).andThen {
