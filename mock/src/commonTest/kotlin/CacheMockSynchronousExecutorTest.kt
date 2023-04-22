@@ -2,17 +2,19 @@ import keep.internal.AbstractCacheTest
 import kommander.expect
 import keep.CacheMock
 import keep.CacheMockConfig
+import kommander.IgnoreNative
 import kommander.IgnoreOSX
 import koncurrent.Executors
 import koncurrent.MockExecutor
 import kotlin.test.Test
 
-@IgnoreOSX
+//@IgnoreOSX
+@IgnoreNative
 class CacheMockSynchronousExecutorTest : AbstractCacheTest(CacheMock(config)) {
 
     companion object {
         private val config = CacheMockConfig(
-            executor = MockExecutor()
+                executor = MockExecutor()
         )
     }
 
