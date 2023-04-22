@@ -1,16 +1,12 @@
 plugins {
     kotlin("js")
-    kotlin("plugin.serialization")
     id("tz.co.asoft.library")
-    id("io.codearte.nexus-staging")
-    signing
 }
 
+description = "An implementation of the cache-api to help caching simple objects on react-native-targets"
+
 kotlin {
-    js(IR) {
-        browserLib()
-        // do not add node js coz async storage doesn't run in node
-    }
+    js(IR) { browserLib() }
 
     sourceSets {
         val main by getting {
@@ -28,8 +24,3 @@ kotlin {
         }
     }
 }
-
-aSoftOSSLibrary(
-    version = asoft.versions.root.get(),
-    description = "An implementation of the cache-api to help caching simple objects on react-native-targets"
-)

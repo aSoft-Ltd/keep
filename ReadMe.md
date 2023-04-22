@@ -2,7 +2,7 @@
 
 a kotlin multiplatform library for caching serializable objects with simple keys
 
-![Maven](https://img.shields.io/maven-central/v/tz.co.asoft/keep/2.0.13?style=for-the-badge)
+![Maven](https://img.shields.io/maven-central/v/tz.co.asoft/keep/unspecified?style=for-the-badge)
 ![Kotlin](https://img.shields.io/badge/kotlin-multiplatform-blue?style=for-the-badge&logo=kotlin&logoColor=white)
 ![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=&logoColor=white)
@@ -16,19 +16,19 @@ a kotlin multiplatform library for caching serializable objects with simple keys
 ```kotlin
 dependencies {
     // if you need it in common code
-    implementation("tz.co.asoft:keep-api:2.0.13")
+    implementation("tz.co.asoft:keep-api:unspecified")
     
     // if you want to cache into a file
-    implementation("tz.co.asoft:keep-file:2.0.13")
+    implementation("tz.co.asoft:keep-file:unspecified")
     
     // if you want to cache things in the browser's local/session storage
-    implementation("tz.co.asoft:keep-browser:2.0.13")
+    implementation("tz.co.asoft:keep-browser:unspecified")
     
     // if you want to test or mock
-    implementation("tz.co.asoft:keep-mock:2.0.13")
+    implementation("tz.co.asoft:keep-mock:unspecified")
     
     // if you want to cache things in react native
-    implementation("tz.co.asoft:keep-react-native:2.0.13")
+    implementation("tz.co.asoft:keep-react-native:unspecified")
 }
 ```
 
