@@ -20,7 +20,6 @@ kotlin {
                 api(projects.koncurrentExecutorsMock)
                 api(projects.keepApi)
                 api(projects.keepFile)
-                api(projects.kollectionsAtomic)
             }
         }
 
