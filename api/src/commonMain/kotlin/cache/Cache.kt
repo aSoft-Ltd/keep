@@ -5,7 +5,11 @@ import cache.exceptions.CacheSaveException
 import kotlinx.serialization.KSerializer
 import koncurrent.Later
 
-@Deprecated("use keep instead")
+@Deprecated(
+    message = "use keep instead",
+    level = DeprecationLevel.WARNING,
+    replaceWith = ReplaceWith("Cache", "keep.Cache")
+)
 /**
  * An interface to be able to [Cache] different objects
  */
