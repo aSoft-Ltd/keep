@@ -3,11 +3,9 @@ import keep.CacheFileConfig
 import keep.internal.AbstractCacheTest
 import keep.save
 import kommander.expect
-import koncurrent.later.andThen
 import koncurrent.later.test
 import okio.FileSystem
 import okio.Path.Companion.toPath
-import okio.fakefilesystem.FakeFileSystem
 
 import kotlin.test.Test
 
