@@ -12,7 +12,7 @@ kotlin {
     sourceSets {
         val main by getting {
             dependencies {
-                api(projects.keepApi)
+                api(libs.keep.api)
                 api(kotlinx.serialization.json)
             }
         }

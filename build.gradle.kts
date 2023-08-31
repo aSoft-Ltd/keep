@@ -16,14 +16,16 @@ repositories {
 
 val v = asoft.versions.root.get()
 
-group = "tz.co.asoft"
-version = v
-
 tasks.dokkaHtmlMultiModule {
     moduleName.set("Keep")
     outputDirectory.set(rootDir.resolve("docs"))
     moduleVersion.set(v)
     includes.from("ReadMe.md")
+}
+
+allprojects {
+    group = "tz.co.asoft"
+    version = v
 }
 
 subprojects {
@@ -32,7 +34,6 @@ subprojects {
     apply(plugin = "com.vanniktech.maven.publish")
 
     val p = this
-    version = v
 
     configure<MavenPublishBaseExtension> {
         publishToMavenCentral(SonatypeHost.DEFAULT,automaticRelease = true)

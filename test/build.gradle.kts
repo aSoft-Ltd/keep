@@ -17,7 +17,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.koncurrent.later.test)
-                api(projects.keepMock)
+                api(libs.keep.mock)
             }
         }
     }
