@@ -14,7 +14,7 @@ repositories {
     publicRepos()
 }
 
-val v = asoft.versions.root.get()
+val v = libs.versions.asoft.get()
 
 tasks.dokkaHtmlMultiModule {
     moduleName.set("Keep")
