@@ -5,9 +5,9 @@ import cache.exceptions.CacheLoadException
 import cache.load
 import cache.loadOrNull
 import cache.save
-import expect.BasicExpectation
-import expect.expect
-import expect.toBe
+import kommander.BasicExpectation
+import kommander.expect
+import kommander.toBe
 import koncurrent.later.catch
 import koncurrent.later.andThen
 import koncurrent.later.test
