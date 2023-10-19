@@ -1,9 +1,13 @@
+@file:JsExport
+@file:Suppress("NON_EXPORTABLE_TYPE")
+
 package keep
 
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
 import kotlinx.serialization.KSerializer
 import koncurrent.Later
+import kotlin.js.JsExport
 
 /**
  * An interface to be able to [Cache] different objects
