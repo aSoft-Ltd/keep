@@ -14,7 +14,7 @@ class CacheMockSynchronousExecutorTest : AbstractCacheTest(CacheMock(config)) {
 
     companion object {
         private val config = CacheMockConfig(
-                executor = MockExecutor()
+            executor = MockExecutor()
         )
     }
 

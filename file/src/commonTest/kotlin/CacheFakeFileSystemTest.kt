@@ -2,14 +2,9 @@ import keep.CacheFile
 import keep.CacheFileConfig
 import keep.internal.AbstractCacheTest
 import kommander.expect
-import keep.CacheMock
-import keep.CacheMockConfig
-import koncurrent.Executors
-import okio.Path
+import kotlin.test.Test
 import okio.Path.Companion.toPath
 import okio.fakefilesystem.FakeFileSystem
-
-import kotlin.test.Test
 
 class CacheFakeFileSystemTest : AbstractCacheTest(CacheFile(config)) {
 

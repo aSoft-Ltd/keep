@@ -1,10 +1,8 @@
 package keep
 
 import koncurrent.Executor
-import kotlinx.browser.localStorage
 import kotlinx.serialization.StringFormat
 import kotlinx.serialization.json.Json
-import org.w3c.dom.Storage
 
 interface CacheBrowserConfig : CacheConfig {
     val storage: Storage

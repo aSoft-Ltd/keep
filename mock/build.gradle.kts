@@ -18,7 +18,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 api(libs.koncurrent.executors.mock)
-                api(projects.keepApi)
                 api(projects.keepFile)
             }
         }
