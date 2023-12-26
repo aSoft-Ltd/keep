@@ -23,7 +23,7 @@ import kotlinx.serialization.serializer
  * - on success: resolves the saved object as it was cached
  * - on failure: rejects with a [CacheSaveException]
  */
-inline fun <reified T> Cache.save(key: String, obj: T): Later<T> = try {
+inline fun <reified T> Cache.save(key: String, obj: T) = try {
     save(key, obj, serializer())
 } catch (e: Throwable) {
     FailedLater(CacheSaveException(key, cause = e))
@@ -57,7 +57,7 @@ inline fun <reified T> Cache.saveOrNull(
  * - on success: resolves the saved object as it was cached
  * - on failure: resolves with a null
  */
-inline fun <reified T> Cache.load(key: String): Later<T> = try {
+inline fun <reified T> Cache.load(key: String) = try {
     load(key, serializer<T>())
 } catch (e: Throwable) {
     FailedLater(CacheLoadException(key, cause = e))
@@ -74,8 +74,8 @@ inline fun <reified T> Cache.load(key: String): Later<T> = try {
  */
 inline fun <reified T> Cache.loadOrNull(
     key: String, serializer: KSerializer<T>? = null
-): Later<T?> = try {
+) = try {
     load(key, serializer ?: serializer()) as Later<T?>
 } catch (e: Throwable) {
-    FailedLater(CacheLoadException(key, cause = e))
+    FailedLater(CacheLoadException(key, cause = e)) as Later<T?>
 }.catch { null }
