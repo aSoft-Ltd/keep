@@ -4,10 +4,6 @@ import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
 import koncurrent.Later
 import koncurrent.later.then
-import koncurrent.later.andThen
-import koncurrent.later.andZip
-import koncurrent.later.zip
-import koncurrent.later.catch
 import kotlinx.serialization.KSerializer
 
 class CacheFile(val config: CacheFileConfig) : Cache {
@@ -22,7 +18,7 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         config.dir / namespace
     }
 
-    override fun keys(): Later<out Set<String>> = Later(executor) { resolve, reject ->
+    override fun keys(): Later<Set<String>> = Later(executor) { resolve, reject ->
         try {
             resolve(fs.list(root).map { it.name.replace(".$ext", "") }.toSet())
         } catch (err: Throwable) {
@@ -30,9 +26,9 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         }
     }
 
-    override fun size(): Later<out Int> = keys().then { it.size }
+    override fun size(): Later<Int> = keys().then { it.size }
 
-    override fun clear(): Later<out Unit> = Later(executor) { resolve, reject ->
+    override fun clear(): Later<Unit> = Later(executor) { resolve, reject ->
         try {
             fs.deleteRecursively(root, mustExist = false)
             fs.createDirectories(root)
@@ -42,7 +38,7 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         }
     }
 
-    override fun remove(key: String): Later<out Unit?> = Later(executor) { resolve, _ ->
+    override fun remove(key: String): Later<Unit?> = Later(executor) { resolve, _ ->
         val filename = root / "$key.$ext"
         if (fs.exists(filename)) try {
             fs.delete(filename, mustExist = false)
@@ -62,7 +58,7 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         }
     }
 
-    override fun <T> load(key: String, serializer: KSerializer<T>): Later<out T> = Later(executor) { resolve, reject ->
+    override fun <T> load(key: String, serializer: KSerializer<T>): Later<T> = Later(executor) { resolve, reject ->
         try {
             val filename = root / "$key.$ext"
             val content = fs.read(filename) { readUtf8() }

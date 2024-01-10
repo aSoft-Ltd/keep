@@ -1,5 +1,5 @@
 plugins {
-    kotlin("js")
+    kotlin("multiplatform")
     id("tz.co.asoft.library")
 }
 
@@ -9,7 +9,7 @@ kotlin {
     js(IR) { browserLib() }
 
     sourceSets {
-        val main by getting {
+        val jsMain by getting {
             dependencies {
                 api(projects.keepApi)
                 api(kotlinx.serialization.json)
@@ -17,7 +17,7 @@ kotlin {
             }
         }
 
-        val test by getting {
+        val jsTest by getting {
             dependencies {
                 implementation(projects.keepTest)
             }

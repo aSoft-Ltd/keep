@@ -3,7 +3,9 @@ import keep.CacheFileConfig
 import keep.internal.AbstractCacheTest
 import keep.save
 import kommander.expect
-import koncurrent.later.test
+import koncurrent.later.await
+import koncurrent.later.andThen
+import kotlinx.coroutines.test.runTest
 import okio.FileSystem
 import okio.Path.Companion.toPath
 
@@ -25,7 +27,9 @@ class CacheJvmFileSystemTest : AbstractCacheTest(CacheFile(config)) {
     }
 
     @Test
-    fun should_save_a_bunch_of_things_in_the_tmp_dir() = cache.save("author", mapOf("name" to "anderson")).andThen {
-        cache.save("hobbies", listOf("Programming", "Gaming", "Tech"))
-    }.test()
+    fun should_save_a_bunch_of_things_in_the_tmp_dir() = runTest {
+        cache.save("author", mapOf("name" to "anderson")).andThen {
+            cache.save("hobbies", listOf("Programming", "Gaming", "Tech"))
+        }.await()
+    }
 }

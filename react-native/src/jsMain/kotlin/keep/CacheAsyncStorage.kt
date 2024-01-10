@@ -1,7 +1,7 @@
-package cache
+package keep
 
-import cache.exceptions.CacheLoadException
-import cache.exceptions.CacheMissException
+import keep.exceptions.CacheLoadException
+import keep.exceptions.CacheMissException
 import kotlinx.serialization.KSerializer
 import koncurrent.Later
 import koncurrent.later.then
@@ -11,10 +11,8 @@ import koncurrent.later.zip
 import koncurrent.later.catch
 import koncurrent.SuccessfulLater
 import koncurrent.later.asLater
-import koncurrent.later.andThen
 import koncurrent.later.then
 
-@Deprecated("use keep instead")
 class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageConfig()) : Cache {
 
     private val namespace get() = config.namespace
@@ -53,7 +51,7 @@ class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageC
             if (res == null) {
                 SuccessfulLater(null)
             } else {
-                storage.removeItem(fullKey).asLater().then { it }
+                storage.removeItem(fullKey).asLater().then { Unit }
             }
         }
     }

@@ -1,14 +1,9 @@
 package keep
 
 import keep.exceptions.CacheMissException
-import kotlinx.serialization.KSerializer
 import koncurrent.Later
-import koncurrent.later.then
-import koncurrent.later.andThen
-import koncurrent.later.andZip
-import koncurrent.later.zip
-import koncurrent.later.catch
 import koncurrent.later
+import kotlinx.serialization.KSerializer
 
 class CacheMock(val config: CacheMockConfig = CacheMockConfig()) : Cache {
     private val cache = config.initialCache
@@ -17,9 +12,9 @@ class CacheMock(val config: CacheMockConfig = CacheMockConfig()) : Cache {
 
     private val namespace get() = config.namespace
 
-    override fun keys(): Later<out Set<String>> = executor.later { cache.keys }
+    override fun keys(): Later<Set<String>> = executor.later { cache.keys }
 
-    override fun size(): Later<out Int> = executor.later { cache.size }
+    override fun size(): Later<Int> = executor.later { cache.size }
 
     override fun <T> save(key: String, obj: T, serializer: KSerializer<T>) = Later(executor) { resolve, _ ->
         cache["$namespace:$key"] = obj
