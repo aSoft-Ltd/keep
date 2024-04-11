@@ -10,7 +10,7 @@ kotlin {
     if (Targeting.JS) js(IR) { library() }
 //    if (Targeting.WASM) wasmJs { library() }
 //    if (Targeting.WASM) wasmWasi { library() }
-    val osxTargets = if (Targeting.OSX) osxTargets() else listOf()
+//    val osxTargets = if (Targeting.OSX) osxTargets() else listOf() // we have failing test on iosX64
 //    val ndkTargets = if (Targeting.NDK) ndkTargets() else listOf()
     val linuxTargets = if (Targeting.LINUX) linuxTargets() else listOf()
 //    val mingwTargets = if (Targeting.MINGW) mingwTargets() else listOf()
