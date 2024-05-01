@@ -28,6 +28,8 @@ class CacheBrowser(val config: CacheBrowserConfig = CacheBrowserConfig()) : Cach
         }
     }
 
+    override fun namespaced(namespace: String) = CacheBrowser(config.copy(namespace = "${config.namespace}.${namespace}"))
+
     override fun <T> save(key: String, obj: T, serializer: KSerializer<T>) = executor.later {
         storage.setItem("${namespace}:${key}", json.encodeToString(serializer, obj))
         obj

@@ -21,6 +21,8 @@ class CacheMock(val config: CacheMockConfig = CacheMockConfig()) : Cache {
         resolve(obj)
     }
 
+    override fun namespaced(namespace: String) = CacheMock(config.copy(namespace = "${config.namespace}.$namespace"))
+
     override fun <T> load(key: String, serializer: KSerializer<T>) = Later(executor) { resolve, reject ->
         val obj = cache["$namespace:$key"]
         if (obj != null) resolve(obj as T) else reject(CacheMissException(key))

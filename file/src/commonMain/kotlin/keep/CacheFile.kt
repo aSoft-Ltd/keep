@@ -26,6 +26,8 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         }
     }
 
+    override fun namespaced(namespace: String) = CacheFile(config.copy(namespace = "${config.namespace}.$namespace"))
+
     override fun size(): Later<Int> = keys().then { it.size }
 
     override fun clear(): Later<Unit> = Later(executor) { resolve, reject ->

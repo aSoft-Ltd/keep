@@ -40,6 +40,13 @@ interface Cache {
     fun remove(key: String): Later<Unit?>
 
     /**
+     * Create a [Cache] that is further namespaced with [namespace]
+     * @param namespace the namespace to further namespace the [Cache] with
+     * @return [Cache]
+     */
+    fun namespaced(namespace: String): Cache
+
+    /**
      * Save object [T] on to the [Cache] with a [key] and its serializer [serializer]
      *
      * @return a [Later] that

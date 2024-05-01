@@ -39,6 +39,8 @@ class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageC
         }
     }
 
+    override fun namespaced(namespace: String) = CacheAsyncStorage(config.copy(namespace = "${config.namespace}.$namespace"))
+
     override fun keys() = storage.getAllKeys().asLater().then { it.toSet() }
 
     override fun size() = storage.getAllKeys().asLater().then { it.size }
