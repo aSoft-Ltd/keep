@@ -19,4 +19,4 @@ listOf("koncurrent", "kommander").forEach {
 
 rootProject.name = "keep"
 
-includeSubs("keep", ".", "api", "browser", "file", "mock", "react-native", "test")
+includeSubs("keep", ".", "api", "browser", "file", "mock", "react-native", "test", "idb")
