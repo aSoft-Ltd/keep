@@ -11,7 +11,7 @@ class CacheFakeFileSystemTest : AbstractCacheTest(CacheFile(config)) {
     companion object {
         private val config = CacheFileConfig(
             fs = FakeFileSystem(),
-            path = "/cache".toPath()
+            dir = "/cache".toPath()
         )
     }
 

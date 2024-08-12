@@ -16,7 +16,7 @@ class CacheJvmFileSystemTest : AbstractCacheTest(CacheFile(config)) {
     companion object {
         private val config = CacheFileConfig(
             fs = FileSystem.SYSTEM,
-            path = "/tmp/foundation/cache".toPath(),
+            dir = "/tmp/foundation/cache".toPath(),
             namespace = "test"
         )
     }
