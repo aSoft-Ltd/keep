@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.internal.modules.TargetId
+
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
@@ -19,6 +21,10 @@ kotlin {
             api(projects.keepApi)
             api(libs.kommander.coroutines)
             api(libs.koncurrent.later.coroutines)
+        }
+
+        if(Targeting.JVM) jvmMain.dependencies {
+            api(kotlin("test-junit5"))
         }
     }
 }
