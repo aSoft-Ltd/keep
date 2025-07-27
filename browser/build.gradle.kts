@@ -1,6 +1,3 @@
-import org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension
-import org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask
-
 plugins {
     kotlin("multiplatform")
     kotlin("plugin.serialization")
@@ -23,12 +20,4 @@ kotlin {
             implementation(projects.keepTest)
         }
     }
-}
-
-rootProject.tasks.withType<KotlinNpmInstallTask>().configureEach {
-    args.add("--ignore-engines")
-}
-
-tasks.named("wasmJsTestTestDevelopmentExecutableCompileSync").configure {
-    mustRunAfter(tasks.named("jsBrowserTest"))
 }
