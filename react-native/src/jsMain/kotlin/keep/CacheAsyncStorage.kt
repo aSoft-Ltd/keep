@@ -2,16 +2,12 @@ package keep
 
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheMissException
-import kotlinx.serialization.KSerializer
 import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import koncurrent.SuccessfulLater
-import koncurrent.awaited.asLater
+import koncurrent.awaited.andThen
 import koncurrent.awaited.then
+import koncurrent.later.asLater
+import kotlinx.serialization.KSerializer
 
 class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageConfig()) : Cache {
 
@@ -26,8 +22,7 @@ class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageC
     override fun <T> save(
         key: String, obj: T,
         serializer: KSerializer<T>
-    ): Later<out T> =
-        storage.setItem("$namespace:$key", codec.encodeToString(serializer, obj)).asLater().then(executor) { obj }
+    ): Later<T> = storage.setItem("$namespace:$key", codec.encodeToString(serializer, obj)).asLater().then(executor) { obj }
 
     override fun <T> load(key: String, serializer: KSerializer<T>) = Later(executor) { resolve, reject ->
         storage.getItem("$namespace:$key").asLater().then {
