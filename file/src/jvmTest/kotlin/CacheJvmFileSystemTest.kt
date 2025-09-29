@@ -4,7 +4,7 @@ import keep.internal.AbstractCacheTest
 import keep.save
 import kommander.expect
 import koncurrent.later.await
-import koncurrent.later.andThen
+import koncurrent.awaited.andThen
 import kotlinx.coroutines.test.runTest
 import okio.FileSystem
 import okio.Path.Companion.toPath

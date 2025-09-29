@@ -4,8 +4,8 @@ import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
 import koncurrent.FailedLater
 import koncurrent.Later
-import koncurrent.later.catch
-import koncurrent.later.then
+import koncurrent.awaited.catch
+import koncurrent.awaited.then
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
 

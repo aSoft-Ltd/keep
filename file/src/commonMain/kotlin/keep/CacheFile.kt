@@ -3,7 +3,7 @@ package keep
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
 import koncurrent.Later
-import koncurrent.later.then
+import koncurrent.awaited.then
 import kotlinx.serialization.KSerializer
 
 class CacheFile(val config: CacheFileConfig) : Cache {

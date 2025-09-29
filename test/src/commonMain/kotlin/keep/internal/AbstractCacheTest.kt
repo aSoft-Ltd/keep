@@ -10,10 +10,10 @@ import kommander.expectFailure
 import kommander.expectFailureWith
 import kommander.expectFunction
 import kommander.toBe
-import koncurrent.later.andThen
-import koncurrent.later.catch
+import koncurrent.awaited.andThen
+import koncurrent.awaited.catch
 import koncurrent.later.await
-import koncurrent.later.then
+import koncurrent.awaited.then
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.Serializable
 import kotlin.test.Test
