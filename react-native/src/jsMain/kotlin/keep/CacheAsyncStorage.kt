@@ -6,7 +6,7 @@ import koncurrent.Later
 import koncurrent.SuccessfulLater
 import koncurrent.awaited.andThen
 import koncurrent.awaited.then
-import koncurrent.later.asLater
+import koncurrent.awaited.asLater
 import kotlinx.serialization.KSerializer
 
 class CacheAsyncStorage(val config: CacheAsyncStorageConfig = CacheAsyncStorageConfig()) : Cache {
