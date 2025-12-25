@@ -1,39 +1,32 @@
 package keep
 
 import keep.exceptions.CacheMissException
-import koncurrent.Later
-import koncurrent.later
 import kotlinx.serialization.KSerializer
 
 class CacheMock(val config: CacheMockConfig = CacheMockConfig()) : Cache {
     private val cache = config.initialCache
 
-    private val executor get() = config.executor
-
     private val namespace get() = config.namespace
 
-    override fun keys(): Later<Set<String>> = executor.later { cache.keys }
+    override suspend fun keys(): Set<String> = cache.keys
 
-    override fun size(): Later<Int> = executor.later { cache.size }
+    override suspend fun size(): Int = cache.size
 
-    override fun <T> save(key: String, obj: T, serializer: KSerializer<T>) = Later(executor) { resolve, _ ->
+    override suspend fun <T> save(key: String, obj: T, serializer: KSerializer<T>): T {
         cache["$namespace:$key"] = obj
-        resolve(obj)
+        return obj
     }
 
     override fun namespaced(namespace: String) = CacheMock(config.copy(namespace = "${config.namespace}.$namespace"))
 
-    override fun <T> load(key: String, serializer: KSerializer<T>) = Later(executor) { resolve, reject ->
-        val obj = cache["$namespace:$key"]
-        if (obj != null) resolve(obj as T) else reject(CacheMissException(key))
-    }
+    override suspend fun <T> load(key: String, serializer: KSerializer<T>): T = cache["$namespace:$key"] as? T ?: throw CacheMissException(key)
 
-    override fun remove(key: String) = executor.later {
+    override suspend fun remove(key: String): Unit? {
         val removed = cache.remove("$namespace:$key")
-        if (removed != null) Unit else null
+        return if (removed != null) Unit else null
     }
 
-    override fun clear() = executor.later { cache.clear() }
+    override suspend fun clear() = cache.clear()
 
     override fun toString(): String = "CacheMock(namespace=$namespace)"
 }

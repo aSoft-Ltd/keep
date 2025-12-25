@@ -6,6 +6,9 @@ plugins {
 description = "An API to help caching simple objects"
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xenable-suspend-function-exporting")
+    }
     if (Targeting.JVM) jvm { library() }
     if (Targeting.JS) js(IR) { library() }
     if (Targeting.WASM) wasmJs { library() }
@@ -17,8 +20,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(libs.koncurrent.later.core)
             api(kotlinx.serialization.core)
+            api(libs.kotlinx.exports)
         }
     }
 }

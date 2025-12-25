@@ -13,10 +13,10 @@ fun includeSubs(base: String, path: String = base, vararg subs: String) {
     }
 }
 
-listOf("koncurrent", "kommander").forEach {
+listOf("kommander", "kotlinx-interoperable").forEach {
     includeBuild("../$it")
 }
 
 rootProject.name = "keep"
 
-includeSubs("keep", ".", "api", "browser", "file", "mock", "test", "idb") // "react-native",
+includeSubs("keep", ".", "api", "browser", "file", "mock", "test") // , "idb") // "react-native",

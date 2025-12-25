@@ -20,7 +20,6 @@ kotlin {
         commonMain.dependencies {
             api(projects.keepApi)
             api(libs.kommander.coroutines)
-            api(libs.koncurrent.later.coroutines)
         }
 
         if(Targeting.JVM) jvmMain.dependencies {

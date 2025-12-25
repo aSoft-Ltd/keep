@@ -2,14 +2,11 @@ package keep
 
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
-import koncurrent.Later
-import koncurrent.awaited.then
 import kotlinx.serialization.KSerializer
 
 class CacheFile(val config: CacheFileConfig) : Cache {
     private val namespace get() = config.namespace
     private val fs get() = config.fs
-    private val executor get() = config.executor
     private val ext get() = config.extension
     private val codec get() = config.codec
 
@@ -18,55 +15,44 @@ class CacheFile(val config: CacheFileConfig) : Cache {
         config.dir / namespace
     }
 
-    override fun keys(): Later<Set<String>> = Later(executor) { resolve, reject ->
-        try {
-            resolve(fs.list(root).map { it.name.replace(".$ext", "") }.toSet())
-        } catch (err: Throwable) {
-            reject(err)
-        }
-    }
+    override suspend fun keys(): Set<String> = fs.list(root).map { it.name.replace(".$ext", "") }.toSet()
 
     override fun namespaced(namespace: String) = CacheFile(config.copy(namespace = "${config.namespace}.$namespace"))
 
-    override fun size(): Later<Int> = keys().then { it.size }
+    override suspend fun size() = keys().size
 
-    override fun clear(): Later<Unit> = Later(executor) { resolve, reject ->
-        try {
-            fs.deleteRecursively(root, mustExist = false)
-            fs.createDirectories(root)
-            resolve(Unit)
-        } catch (err: Throwable) {
-            reject(err)
-        }
+    override suspend fun clear() {
+        fs.deleteRecursively(root, mustExist = false)
+        fs.createDirectories(root)
     }
 
-    override fun remove(key: String): Later<Unit?> = Later(executor) { resolve, _ ->
+    override suspend fun remove(key: String): Unit? {
         val filename = root / "$key.$ext"
-        if (fs.exists(filename)) try {
+        return if (fs.exists(filename)) try {
             fs.delete(filename, mustExist = false)
-            resolve(Unit)
+            Unit
         } catch (err: Throwable) {
-            resolve(null)
-        } else resolve(null)
+            null
+        } else null
     }
 
-    override fun <T> save(key: String, obj: T, serializer: KSerializer<T>) = Later(executor) { resolve, reject ->
+    override suspend fun <T> save(key: String, obj: T, serializer: KSerializer<T>): T {
         try {
             val filename = root / "$key.$ext"
             fs.write(filename) { writeUtf8(codec.encodeToString(serializer, obj)) }
-            resolve(obj)
+            return obj
         } catch (err: Throwable) {
-            reject(CacheSaveException(key, cause = err))
+            throw CacheSaveException(key, cause = err)
         }
     }
 
-    override fun <T> load(key: String, serializer: KSerializer<T>): Later<T> = Later(executor) { resolve, reject ->
+    override suspend fun <T> load(key: String, serializer: KSerializer<T>): T {
         try {
             val filename = root / "$key.$ext"
             val content = fs.read(filename) { readUtf8() }
-            resolve(codec.decodeFromString(serializer, content))
+            return codec.decodeFromString(serializer, content)
         } catch (err: Throwable) {
-            reject(CacheLoadException(key, cause = err))
+            throw CacheLoadException(key, cause = err)
         }
     }
 

@@ -2,10 +2,6 @@ package keep
 
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
-import koncurrent.FailedLater
-import koncurrent.Later
-import koncurrent.awaited.catch
-import koncurrent.awaited.then
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.serializer
 
@@ -18,10 +14,10 @@ import kotlinx.serialization.serializer
  * - on success: resolves the saved object as it was cached
  * - on failure: rejects with a [CacheSaveException]
  */
-inline fun <reified T> Cache.save(key: String, obj: T) = try {
+suspend inline fun <reified T> Cache.save(key: String, obj: T) = try {
     save(key, obj, serializer())
 } catch (e: Throwable) {
-    FailedLater(CacheSaveException(key, cause = e))
+    throw CacheSaveException(key, cause = e)
 }
 
 /**
@@ -33,15 +29,13 @@ inline fun <reified T> Cache.save(key: String, obj: T) = try {
  * - on success: resolves the saved object as it was cached
  * - on failure: resolves with a null
  */
-inline fun <reified T> Cache.saveOrNull(
+suspend inline fun <reified T> Cache.saveOrNull(
     key: String, obj: T, serializer: KSerializer<T>? = null
-): Later<T?> = try {
-    save(key, obj, serializer ?: serializer())
+): T? = try {
+    save(key, obj, serializer ?: serializer()) as? T
 } catch (e: Throwable) {
-    FailedLater(CacheSaveException(key, cause = e))
-}.then {
-    it as? T
-}.catch { null }
+    null
+}
 
 /**
  * Load object [T] from the [Cache], that was saved with a [key] with an optional serializer [serializer]
@@ -52,10 +46,10 @@ inline fun <reified T> Cache.saveOrNull(
  * - on success: resolves the saved object as it was cached
  * - on failure: resolves with a null
  */
-inline fun <reified T> Cache.load(key: String) = try {
+suspend inline fun <reified T> Cache.load(key: String) = try {
     load(key, serializer<T>())
 } catch (e: Throwable) {
-    FailedLater(CacheLoadException(key, cause = e))
+    throw CacheLoadException(key, cause = e)
 }
 
 /**
@@ -67,10 +61,10 @@ inline fun <reified T> Cache.load(key: String) = try {
  * - on success: resolves the saved object as it was cached
  * - on failure: resolves with a null
  */
-inline fun <reified T> Cache.loadOrNull(
+suspend inline fun <reified T> Cache.loadOrNull(
     key: String, serializer: KSerializer<T>? = null
-) = try {
-    load(key, serializer ?: serializer()) as Later<T?>
-} catch (e: Throwable) {
-    FailedLater(CacheLoadException(key, cause = e)) as Later<T?>
-}.catch { null }
+): T? = try {
+    load(key, serializer ?: serializer()) as? T
+} catch (_: Throwable) {
+    null
+}

@@ -5,14 +5,8 @@ package keep
 
 import keep.exceptions.CacheLoadException
 import keep.exceptions.CacheSaveException
-import kotlinx.serialization.KSerializer
-import koncurrent.Later
-import koncurrent.awaited.then
-import koncurrent.awaited.andThen
-import koncurrent.awaited.andZip
-import koncurrent.awaited.zip
-import koncurrent.awaited.catch
 import kotlinx.JsExport
+import kotlinx.serialization.KSerializer
 
 /**
  * An interface to be able to [Cache] different objects
@@ -21,23 +15,23 @@ interface Cache {
     /**
      * Should return the set of all available keys in the [Cache]
      */
-    fun keys(): Later<Set<String>>
+    suspend fun keys(): Set<String>
 
     /**
      * Should return the size of the [Cache] which should ideally equal the number of [keys]
      */
-    fun size(): Later<Int>
+    suspend fun size(): Int
 
     /**
      * Clears the entire [Cache]
      */
-    fun clear(): Later<Unit>
+    suspend fun clear(): Unit
 
     /**
      * Removes a [key] from the [Cache]
      * @return the removed object or null if nothing was removed
      */
-    fun remove(key: String): Later<Unit?>
+    suspend fun remove(key: String): Unit?
 
     /**
      * Create a [Cache] that is further namespaced with [namespace]
@@ -53,7 +47,7 @@ interface Cache {
      * - on success: resolves the saved object as it was cached
      * - on failure: rejects with a [CacheSaveException]
      */
-    fun <T> save(key: String, obj: T, serializer: KSerializer<T>): Later<T>
+    suspend fun <T> save(key: String, obj: T, serializer: KSerializer<T>): T
 
     /**
      * Load object [T] from the [Cache], that was saved with a [key] and its serializer [serializer]
@@ -62,5 +56,5 @@ interface Cache {
      * - on success: resolves to the cached object
      * - on failure: rejects with a [CacheLoadException]
      */
-    fun <T> load(key: String, serializer: KSerializer<T>): Later<T>
+    suspend fun <T> load(key: String, serializer: KSerializer<T>): T
 }
