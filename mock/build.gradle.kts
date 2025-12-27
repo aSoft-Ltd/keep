@@ -17,7 +17,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(libs.koncurrent.executors.mock)
                 api(projects.keepApi)
             }
         }
