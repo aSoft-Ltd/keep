@@ -6,7 +6,7 @@ plugins {
 description = "An implementation of the cache-api to help caching simple objects on react-native-targets"
 
 kotlin {
-    js(IR) { browserLib() }
+    js { browserLib() }
 
     sourceSets {
         val jsMain by getting {

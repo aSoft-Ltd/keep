@@ -7,7 +7,7 @@ plugins {
 description = "An implementation of the cache-api to help caching simple objects on the browser for js and wasmJs"
 
 kotlin {
-    if (Targeting.JS) js(IR) { browserLib() }
+    if (Targeting.JS) js { browserLib() }
     if (Targeting.WASM) wasmJs { browserLib() }
 
     sourceSets {
